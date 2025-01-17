@@ -26,9 +26,9 @@ jobs:
             - name: Set deploy directory
               env:
                   RELEASE_BRANCH: "refs/heads/main"
-                  RELEASE_DIR: "/www/wwwroot/todo-list/release"
+                  RELEASE_DIR: "/www/wwwroot/webrtc-demo/release"
                   DEV_BRANCH: "refs/heads/develop"
-                  DEV_DIR: "/www/wwwroot/todo-list/develop"
+                  DEV_DIR: "/www/wwwroot/webrtc-demo/develop"
               run: |
                   # 根据分支设置部署路径
                   if [ "${{ github.ref }}" = "$RELEASE_BRANCH" ]; then
