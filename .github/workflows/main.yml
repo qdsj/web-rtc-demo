@@ -1,26 +1,23 @@
+name: Auth WebDeploy
+
 on:
     push:
         branches: [main, develop]
 
 jobs:
-    build:
+    Deploy:
         runs-on: ubuntu-latest
-        env:
-            MAIN_ENV: production
-            DEVELOP_ENV: development
-            DEFAULT_ENV: development
         environment:
-            name: ${{ (github.ref == 'refs/heads/main' && 'production')  ||
-                (github.ref == 'refs/heads/develop' && 'development') }}
+            name: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
         steps:
             - uses: actions/checkout@v4.2.2
               with:
                   persist-credentials: false
 
-            - name: install
+            - name: Install
               run: npm i
 
-            - name: build
+            - name: Build
               run: npm run build
 
             - name: Set deploy directory
@@ -39,12 +36,12 @@ jobs:
             - name: Setup SSH
               uses: webfactory/ssh-agent@v0.8.0
               with:
-                  ssh-private-key: ${{ secrets.ALIYUN_SECRET_KEY }}
+                  ssh-private-key: ${{ secrets.SERVER_KEY }}
             - name: Deploy
               env:
                   # DEPLOY_PATH: "/www/wwwroot/todo-list" # 部署路径
-                  DEPLOY_USER: ${{ secrets.ALIYUN_USER_NAME }}
-                  DEPLOY_HOST: ${{ secrets.ALIYUN_HOST }}
+                  DEPLOY_USER: ${{ secrets.SERVER_USER_NAME }}
+                  DEPLOY_HOST: ${{ secrets.SERVER_HOST }}
               run: |
                   # 首先添加服务器到已知主机
                   ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
