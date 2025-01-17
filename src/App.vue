@@ -61,6 +61,7 @@ const startCall = async () => {
 	caller.value = true;
 };
 
+//@ts-ignore
 const receiverCall = () => {
 	peer.value.on("call", async (call) => {
 		const stream = await getMyselfVideoStream();
@@ -84,7 +85,7 @@ const messageList = ref<{ id: string; data: any }[]>([]);
 const message = ref("");
 const connected = ref(false);
 const curCon = ref<DataConnection>();
-const remoteCon = ref<any>();
+// const remoteCon = ref<any>();
 const connect = () => {
 	if (!remoteId.value) {
 		ElMessage.error("please input remote name");
